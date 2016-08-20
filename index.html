@@ -79,7 +79,7 @@
 <script>
     // PointCloud with Custom, Dynamic Attribute
 
-    var renderer, scene, camera, cloud, uniforms,mesh,control, ballmesh, ballPoint;
+    var renderer, scene, camera, cloud, uniforms,mesh,control, ballmesh, ballPoint,testMesh;
 
 
 
@@ -101,78 +101,40 @@
         camera.position.set(0,0,400);
         control = new THREE.OrbitControls(camera, renderer.domElement);
         control.target = new THREE.Vector3(0,0,0);
-
+        control.update();
 
         // point cloud geometry
-
-
-
-        var geometry = new THREE.SphereBufferGeometry( 100, 20, 20 );
-
-
 
         var jsonLoader = new THREE.JSONLoader();
         jsonLoader.load('models/ball.json', addJsonToScn);
         function addJsonToScn(geometry) {
             var ball = new THREE.BufferGeometry().fromGeometry(geometry);
-           // console.log(ball.attributes.position.count);
-            var numBallVert = ball.attributes.position.count;
-            var alphas = new Float32Array( numBallVert * 1 );
-            //console.log(alphas);
-            for(var i=0; i<numBallVert;i++){
-                alphas[i]= 1;
-            }
-            ball.addAttribute('alpha',new THREE.BufferAttribute(alphas,1));
-
-            uniforms2 = {
-                color2: { type:"c", value:new THREE.Color(0xff0000)},
-            };
-            uniforms = {
-                color: { type:"c", value:new THREE.Color(0x0000ff)},
-            };
-
-            var shaderMtl = new THREE.ShaderMaterial({
-                uniforms:       uniforms2,
-                vertexShader:   document.getElementById('vertexshader2').textContent,   //著色器是一種配色流程
-                fragmentShader: document.getElementById('fragmentshader2').textContent, //可交互使用
-                transparent: true                                                        //可配對嘗試看看
-            });
-
-            var shaderMtl2 = new THREE.ShaderMaterial({
-                uniforms:       uniforms,
-                vertexShader:   document.getElementById('vertexshader2').textContent,
-                fragmentShader: document.getElementById('fragmentshader').textContent,
-                transparent: true
-            });
-
-
-            ballmesh = new THREE.Line(ball, shaderMtl);
-            ballPoint = new THREE.Points(ball, shaderMtl2);
+            console.log(ball.attributes.position.count);
+            var mtl = new THREE.MeshBasicMaterial( { color: 0xff0000 } );
+            ballmesh = new THREE.Line(ball, mtl);
+            console.log(ballmesh.geometry.attributes.position.count);
             scene.add(ballmesh);
-            scene.add(ballPoint);
-
         }
-
-
-
+       document.addEventListener('click', rotateMesh, false);
 
     }
+
+    function rotateMesh() {
+        ballmesh.rotation.y += 0.1;
+    }
+
 
     function animate() {
-        control.update();
-        console.log(ballmesh);
+        if(ballmesh){
+            ballmesh.rotation.y += 0.05;
+        }
 
         requestAnimationFrame( animate );
-
-        render();
-
-    }
-
-    function render() {
 
         renderer.render( scene, camera );
 
     }
+
 
 </script>
 
