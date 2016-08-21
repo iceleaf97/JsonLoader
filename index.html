@@ -79,7 +79,7 @@
 
         //camera
         camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
-        camera.position.set(0,0,20);
+        camera.position.set(0,10,20);
         control = new THREE.OrbitControls(camera, renderer.domElement);
         control.target = new THREE.Vector3(0,0,0);
         control.update();
@@ -121,7 +121,7 @@
 
             uniforms ={
                 color: { type: "c", value: new THREE.Color(0x00ffff)},
-                pointsize:{type: "f", value: 2.0 },
+                pointsize:{type: "f", value: 1.0 },
             };
 
             var shaderMtl = new THREE.ShaderMaterial({
@@ -162,8 +162,8 @@
             }
             mesh.geometry.attributes.a_color.needsUpdate =true;
 
-            mesh.rotation.y += 0.01;
-            cloud.rotation.y += 0.01;
+            mesh.rotation.y += 0.005;
+            cloud.rotation.y += 0.005;
         }
 
         requestAnimationFrame( animate );
