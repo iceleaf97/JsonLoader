@@ -168,9 +168,9 @@
             }
             a_color = new Float32Array(numVertices*3);
             for(var i=0; i<numVertices * 3; i += 3){
-                a_color[i] = params.colorR;
-                a_color[i+1] = params.colorG;
-                a_color[i+2] = params.colorB;
+                a_color[i] = params.colorR/100;
+                a_color[i+1] = params.colorG/100;
+                a_color[i+2] = params.colorB/100;
             }
 
             cerebrumGeom.addAttribute('a_color', new THREE.BufferAttribute(a_color, 3)); //訊息傳回給vertexShader
