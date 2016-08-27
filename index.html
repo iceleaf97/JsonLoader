@@ -105,15 +105,15 @@
     var time =0;
     var gui = new dat.GUI();
     var params = {
-        colorR: 70,
-        colorG: 70,
-        colorB: 70,
+        colorR: 39,
+        colorG: 78,
+        colorB: 78,
         pointSize: 2,
         alpha: 0.1,
-        cerebellumColorR: 20,
-        cerebellumColorG: 100,
-        cerebellumColorB: 80,
-        cerebellumPointSize: 1,
+        cerebellumColorR: 41,
+        cerebellumColorG: 47,
+        cerebellumColorB: 75,
+        cerebellumPointSize: 2,
         cerebellumAlpha: 0.3
     };
 
@@ -128,7 +128,8 @@
     function init() {
 
         // renderer
-        renderer = new THREE.WebGLRenderer();
+        renderer = new THREE.WebGLRenderer({alpha:true, antialias:true});
+        renderer.setClearColor( 0x000000 );
         renderer.setSize( window.innerWidth, window.innerHeight );
         document.body.appendChild( renderer.domElement );
 
@@ -160,6 +161,7 @@
         jsonLoader.load('models/cerebrum.json', addJsonToScn);
         function addJsonToScn(geometry) {
             var cerebrumGeom = new THREE.BufferGeometry().fromGeometry(geometry);
+
             console.log(cerebrumGeom.attributes.position.count);
             var numVertices = cerebrumGeom.attributes.position.count;
             var alphas = new Float32Array(numVertices*1);
@@ -191,6 +193,7 @@
 
             mesh = new THREE.Points(cerebrumGeom, shaderMtl);
             cloud = new THREE.Line(cerebrumGeom, shaderMtl);
+
             scene.add(cloud);
             scene.add(mesh);
 
